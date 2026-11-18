@@ -1,0 +1,91 @@
+# Python bytecode and caches
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Native extensions
+*.so
+*.pyd
+
+# Virtual environments
+.venv/
+venv/
+env/
+ENV/
+.conda/
+
+# Packaging and build output
+build/
+dist/
+*.egg-info/
+.eggs/
+pip-wheel-metadata/
+
+# Test, coverage, lint, and type-check caches
+.pytest_cache/
+.coverage
+.coverage.*
+htmlcov/
+.tox/
+.nox/
+.mypy_cache/
+.ruff_cache/
+.hypothesis/
+
+# Jupyter
+.ipynb_checkpoints/
+
+# IDE and editor settings
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Operating-system files
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+# Environment variables and local secrets
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+
+# Logs and local runtime files
+*.log
+logs/
+*.pid
+
+# Local data (keep directory placeholders and documentation)
+data/*
+!data/.gitkeep
+!data/README.md
+week*/data/*
+!week*/data/.gitkeep
+!week*/data/README.md
+
+# Models, checkpoints, and experiment artifacts
+models/
+checkpoints/
+artifacts/
+mlruns/
+wandb/
+*.ckpt
+*.pt
+*.pth
+*.onnx
+*.joblib
+*.pkl
+
+# Generated reports and plots
+week*/reports/*
+!week*/reports/.gitkeep
+!week*/reports/README.md
+
+# Local databases
+*.db
+*.sqlite
+*.sqlite3
+

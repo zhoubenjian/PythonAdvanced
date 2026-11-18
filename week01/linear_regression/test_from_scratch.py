@@ -1,0 +1,36 @@
+"""Tests for the from-scratch implementation."""
+import numpy as np
+
+from week01.linear_regression.from_scratch import fit, mse, predict
+
+
+def test_predict():
+    X = np.array([[1.0], [2.0], [3.0]])
+    w = np.array([2.0])
+    b = 1.0
+
+    result = predict(X, w, b)
+    np.testing.assert_array_equal(result, np.array([3.0,5.0, 7.0]))
+
+
+def test_mse():
+    y_true = np.array([1.0, 2.0, 3.0])
+    y_pred = np.array([1.0, 3.0, 2.0])
+
+    assert mse(y_true, y_pred) == 2 / 3
+
+
+def test_fit():
+    X = np.array([[1.0], [2.0], [3.0], [4.0]])
+    y = 2 * X[:, 0] + 1
+
+    w, b, losses = fit(
+        X,
+        y,
+        learning_rate=0.01,
+        epochs=2000,
+    )
+
+    np.testing.assert_allclose(w, [2.0], atol=0.05)
+    assert abs(b - 1.0) < 0.05
+    assert losses[-1] < losses[0]
