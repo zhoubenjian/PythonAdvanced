@@ -8,6 +8,9 @@
 - `notebooks/`：探索性分析（如果使用 Jupyter）
 - `data/`：本周数据，不提交大型或敏感数据
 - `reports/`：实验结果和图表
+- `interview-checklist.md`：本周面试知识与自测清单
+
+同步补课总清单见 `docs/interview-roadmap.md`。
 
 运行测试：
 

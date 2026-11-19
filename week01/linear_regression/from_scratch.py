@@ -30,7 +30,7 @@ def fit(
     y: np.ndarray,
     learning_rate: float = 0.01,
     epochs: int = 1000
-) -> (np.ndarray, float, list[float]):
+) -> tuple[np.ndarray, float, list[float]]:
     '''
     梯度下降算法
     :param X: 输入特征
@@ -43,7 +43,7 @@ def fit(
     b = 0.0
     losses: list[float] = []
 
-    for epoch in range(epochs):
+    for _ in range(epochs):
         y_pred = predict(X, w, b)
         error = y_pred - y
 
