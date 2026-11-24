@@ -4,24 +4,30 @@ import numpy as np
 from week01.linear_regression.from_scratch import fit, mse, predict
 
 
-def test_predict():
+def test_predict() -> None:
     X = np.array([[1.0], [2.0], [3.0]])
     w = np.array([2.0])
     b = 1.0
 
     result = predict(X, w, b)
-    np.testing.assert_array_equal(result, np.array([3.0,5.0, 7.0]))
+    np.testing.assert_array_equal(result, np.array([3.0, 5.0, 7.0]))
 
 
-def test_mse():
+def test_mse() -> None:
     y_true = np.array([1.0, 2.0, 3.0])
     y_pred = np.array([1.0, 3.0, 2.0])
 
-    assert mse(y_true, y_pred) == 2 / 3
+    # 使用 np.isclose 或 np.allclose 进行浮点数比较
+    assert np.isclose(mse(y_true, y_pred), 2 / 3)
 
 
-def test_fit():
-    X = np.array([[1.0], [2.0], [3.0], [4.0]])
+def test_fit() -> None:
+    X = np.array([
+        [1.0],
+        [2.0],
+        [3.0],
+        [4.0],
+    ])
     y = 2 * X[:, 0] + 1
 
     w, b, losses = fit(
