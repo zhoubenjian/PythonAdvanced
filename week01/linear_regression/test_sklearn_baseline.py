@@ -10,6 +10,7 @@ from week01.linear_regression.sklearn_baseline import (
 
 
 def test_from_scratch_result() -> None:
+    # 手写梯度下降验证“接近真实参数”，而不是要求浮点数完全相等。
     X, y = create_dataset()
 
     result = train_from_scratch(X, y)
@@ -20,6 +21,7 @@ def test_from_scratch_result() -> None:
 
 
 def test_sklearn_result() -> None:
+    # sklearn 对此线性数据直接求解，因此可以使用更严格的断言。
     X, y = create_dataset()
 
     result = train_with_sklearn(X, y)

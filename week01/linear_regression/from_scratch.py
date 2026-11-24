@@ -12,6 +12,7 @@ def predict(X: np.ndarray, w: np.ndarray, b: float) -> np.ndarray:
     :param b: 偏置
     :return: 预测值
     '''
+    # 矩阵乘法同时计算所有样本的线性组合，避免逐样本 Python 循环。
     return X @ w + b
 
 
@@ -22,6 +23,7 @@ def mse(y_true: np.ndarray, y_pred: np.ndarray) -> float:
     :param y_pred: 预测值
     :return: MSE
     '''
+    # 先平方再取平均，避免正负误差相互抵消；平方也会放大大误差。
     return float(np.mean((y_true - y_pred) ** 2))
 
 
@@ -37,8 +39,10 @@ def fit(
     :param y: 目标变量
     :return: (w, b, loss_history)
     '''
+    # w 的长度等于特征数；同一个特征在所有样本中共享一个权重。
     n_samples, n_features = X.shape
 
+    # 从零参数开始，记录每轮更新前计算出的损失用于观察收敛过程。
     w = np.zeros(n_features, dtype=float)
     b = 0.0
     losses: list[float] = []
@@ -47,16 +51,15 @@ def fit(
         y_pred = predict(X, w, b)
         error = y_pred - y
 
-        # 对w求梯度（偏导数）
+        # dw/db 是损失对参数的梯度，不是参数本身的变化量。
         dw = (2 / n_samples) * (X.T @ error)
-        # 对b求梯度（偏导数）
         db = float((2 / n_samples) * np.sum(error))
 
-        # 更新w和b
+        # 负梯度方向让损失下降，learning_rate 控制每次移动的步长。
         w -= learning_rate * dw
         b -= learning_rate * db
 
-        # 记录损失
+        # 当前实现记录的是更新前预测对应的损失，便于比较每轮输入状态。
         losses.append(mse(y, y_pred))
 
     return w, b, losses

@@ -20,6 +20,7 @@ class ModelResult:
 
 def create_dataset() -> tuple[NDArray[np.float64], NDArray[np.float64]]:
     """Create a deterministic dataset following y = 2x + 1."""
+    # 固定数据让手写实现和 sklearn 使用完全相同的输入，比较才有意义。
     X = np.array([[1.0], [2.0], [3.0], [4.0]])
     y = 2 * X[:, 0] + 1
     return X, y
@@ -30,6 +31,7 @@ def train_from_scratch(
     y: NDArray[np.float64],
 ) -> ModelResult:
     """Train the gradient-descent implementation and return its result."""
+    # 梯度下降只能在有限轮次内逼近最优参数，因此结果通常存在微小误差。
     weights, intercept, _ = fit(X, y)
     y_pred = predict(X, weights, intercept)
     return ModelResult(weights, intercept, mse(y, y_pred))
@@ -40,6 +42,7 @@ def train_with_sklearn(
     y: NDArray[np.float64],
 ) -> ModelResult:
     """Train scikit-learn's least-squares model and return its result."""
+    # LinearRegression 直接求解最小二乘问题，不需要手动设置学习率和轮数。
     model = LinearRegression()
     model.fit(X, y)
     y_pred = model.predict(X)
@@ -48,6 +51,7 @@ def train_with_sklearn(
 
 def compare_models() -> None:
     """Train both models and print a concise comparison."""
+    # 训练、评估两种实现，再并排输出，观察求解方法的差异。
     X, y = create_dataset()
     scratch = train_from_scratch(X, y)
     sklearn = train_with_sklearn(X, y)
