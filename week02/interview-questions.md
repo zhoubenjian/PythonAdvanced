@@ -42,3 +42,35 @@ BCE 同时计算 `log(p)` 和 `log(1 - p)`。概率取边界值时会算到 `log
 ## 8. 调整分类阈值会改变 BCE 或预测类别吗？
 
 对同一批标签和预测概率，BCE 保持不变，因为计算公式里没有分类阈值。预测类别可能变化。例如概率为 0.7 时，阈值为 0.5 会判为正类，阈值为 0.8 会判为负类。基于类别计算的 Precision、Recall 和 F1 也可能随之变化。
+
+## 9. Sigmoid 的导数为什么可以用它的输出表示？
+
+令 `p = sigmoid(z) = 1 / (1 + exp(-z))`。由链式法则可得
+
+```text
+dp/dz = exp(-z) / (1 + exp(-z))²
+      = p * (1 - p)
+```
+
+其中 `1 - p = exp(-z) / (1 + exp(-z))`。
+
+## 10. 本项目中 BCE 的 log 以什么为底？
+
+本项目用自然对数 `ln`，与 NumPy 的 `np.log` 一致。对正数 `x`，`d ln(x)/dx = 1 / x`，由链式法则可得 `d ln(1 - p)/dp = -1 / (1 - p)`。阅读其他公式时按资料的约定确认底数。例如以 2 为底时，导数为 `1 / (x * ln(2))`。
+
+## 11. 如何用链式法则推导 fit() 中的梯度？
+
+令 `z = x @ w + b`，`p = sigmoid(z)`，`loss` 为单样本 BCE。对未裁剪的理论损失，当 `0 < p < 1` 时
+
+```text
+d loss/dp = -y / p + (1 - y) / (1 - p)
+dp/dz     = p * (1 - p)
+d loss/dz = (d loss/dp) * (dp/dz) = p - y
+```
+
+继续乘上 `dz/dw_j = x_j` 和 `dz/db = 1`，再对样本取平均，就得到 `fit()` 中的两行代码。
+
+```python
+dw = (features.T @ (probs - labels)) / len(labels)
+db = np.mean(probs - labels)
+```
