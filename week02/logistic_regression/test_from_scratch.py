@@ -1,9 +1,10 @@
-"""Acceptance tests for the Week 02 prediction exercises."""
+"""Acceptance tests for the Week 02 logistic regression exercises."""
 
 import numpy as np
 
 from week02.logistic_regression.from_scratch import (
     binary_cross_entropy,
+    fit,
     predict,
     predict_proba,
     sigmoid,
@@ -61,3 +62,18 @@ def test_predict() -> None:
         predict(features, weights, 0.0, threshold=0.8),
         [0, 0, 1],
     )
+
+
+def test_fit() -> None:
+    features = np.array([[-3.0], [-2.0], [-1.0], [1.0], [2.0], [3.0]])
+    labels = np.array([0, 0, 0, 1, 1, 1])
+    epochs = 100
+
+    weights, intercept, losses = fit(features, labels, epochs=epochs)
+
+    assert weights.shape == (1,)
+    assert np.ndim(intercept) == 0
+    assert len(losses) == epochs
+    assert np.all(np.isfinite(losses))
+    assert losses[-1] < losses[0]
+    np.testing.assert_array_equal(predict(features, weights, intercept), labels)
